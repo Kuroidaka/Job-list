@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/css/styles.css">
+    <title>Document</title>
+</head>
+<body>
+
+     <center>
+            <div class="body-wrap">
+
+                <h1 class="header">Phân công giao hàng</h1>
+                <form class="body" >
+
+                    <label for="job-name">Tên công việc</label>
+                    <input type="text" id="job-name">
+                    <div class="item">
+                    </div>
+                  
+                    <div class="item">
+                        <label for="supervisor">Người phụ trách</label>
+                        <input type="text" id="supervisor">
+                    </div>
+            
+                    <div class="item">
+                        <label for="receive-locate">Nơi nhận hàng</label>
+                        <select name="receive-location" id="receive-location">
+                            <option value="default" disabled selected>Vui lòng chọn tỉnh thành phố nhận hàng</option>
+                            <option value="Hồ Chí Minh" >Hồ Chí Minh</option>
+                            <option value="Hà Nội" >Hà Nội</option>
+                        </select>
+        
+                    </div>
+        
+                    <div class="item">
+                        <label for="release-locate">Nơi giao hàng</label>
+                        <select name="release-location" id="release-location">
+                            <option value="default" disabled selected>Vui lòng chọn tỉnh thành phố giao hàng</option>
+                            <option value="Hồ Chí Minh" >Hồ Chí Minh</option>
+                            <option value="Hà Nội" >Hà Nội</option>
+                        </select>
+                    </div>
+        
+                    <div class="item">
+                        <label for="date-start">Ngày bắt đầu</label>
+                        <input type="date" id="date-start">
+                    </div>
+                    
+                    <div class="item">
+                        <label for="date-end">Ngày kết thúc</label>
+                        <input type="date" id="date-end">
+                    </div>
+        
+                    <div class="item">
+                        <label for="detail">Chi tiết</label>
+                        <textarea id="detail" placeholder="Chi tiết công việc hoặc hàng hóa"></textarea>
+                    </div>
+        
+                    <div class="btn-box">
+                        <button class="add">Thêm</button>
+                        <button class="reset">Reset</button>
+
+                    </div>
+
+                </form>
+
+                <div class="job-list"></div>
+
+            </div>
+            
+     </center>
+
+     <script src="/src/js/index.js"></script>
+</body>
+</html>
