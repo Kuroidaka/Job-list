@@ -52,7 +52,7 @@ window.App = {
 
             return `
                     <div class="job-item">
-                        <div class="job-item-name" onclick="window.App.renderPage(${idx})" >${job?.jobName}</div>
+                        <a href="/" class="job-item-name" onclick="window.App.renderPage(event, ${idx})" >${job?.jobName}</a>
                         <div class="job-item-supervisor-name">${job?.supervisor}</div>
                         <div class="job-item-receive-locate">Nơi nhận: ${job?.receiveLocation}</div>
                         <div class="job-item-date-start">Ngày bắt đầu: ${job?.dateStart}</div>
@@ -62,8 +62,8 @@ window.App = {
         $('.job-list').innerHTML = htmls.join('')
     }
     },
-    renderPage: async function(id) {
-
+    renderPage: async function(event, id) {
+        event.preventDefault()
         this.setCurrentJob(jobStorage[id])
         window.location.href = '/public/page.html'  
     },
