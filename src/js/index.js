@@ -1,91 +1,92 @@
-
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 
-var jobStorage = []
-const addBtn = $('.add')
-let currentJob
+const bookStorage = []
+
+const books = [
+    {   
+        id: 0,
+        name: 'nha gia kim',
+        img: 'https://oldglorydesign.co.uk/wp-content/uploads/2020/05/book-01-free-img.png',
+        price: 69000,
+        cost: 69000
+    },
+    {   
+        id: 1,
+        name: 'Khoi nghiep 4.0',
+        img: 'https://oldglorydesign.co.uk/wp-content/uploads/2020/05/book-01-free-img.png',
+        price: 139000,
+        cost: 139000
+    },
+    {
+        id: 2,
+        name: 'tu duy phan bien',
+        img: 'https://oldglorydesign.co.uk/wp-content/uploads/2020/05/book-01-free-img.png',
+        price: 850000,
+        cost: 850000
+    },
+    {
+        id: 3,
+        name: 'tren duong bang',
+        img: 'https://oldglorydesign.co.uk/wp-content/uploads/2020/05/book-01-free-img.png',
+        price: 800000,
+        cost: 800000
+    },
+]
+var sum = 0
 
 window.App = {
-    getJob: JSON.parse(localStorage.getItem('jobs')),
-    updateJob: function(jobs) {
-        localStorage.setItem('jobs', JSON.stringify(jobs));
+    setLocal: function(sum) {
+        localStorage.setItem('bookStorage', JSON.stringify(bookStorage))
+        localStorage.setItem('sum', JSON.stringify(sum))
+    } ,
+    handleEvent: function() {
     },
-    setCurrentJob: (job)=> localStorage.setItem('currentJob', JSON.stringify(job)),
-    handleEvent: function(){
-        const _this = this
+    handleClickBuyBtn: function(event, id) {
+        event.preventDefault()
+        const check = bookStorage.find(book => book.id === id)
         
-        // Click 'thêm
-        addBtn.onclick = (e) => {
-            e.preventDefault()
-            const jobName = $('#job-name')
-            const supervisor = $('#supervisor')
-            const receiveLocation = $('#receive-location')
-            const releaseLocation = $('#release-location')
-            const dateStart = $('#date-start')
-            const dateEnd = $('#date-end')
-            const detail = $('#detail')
-            
-            const newJob = {
-                jobName: jobName.value,
-                supervisor: supervisor.value,
-                receiveLocation: receiveLocation.value,
-                releaseLocation: releaseLocation.value,
-                dateStart: dateStart.value,
-                dateEnd: dateEnd.value,
-                detail: detail.value,
-            }
-            jobStorage.push(newJob)
-            _this.updateJob(jobStorage)
-            console.log('update jobs');
-            _this.render()
+
+
+        if(check === undefined) {
+            const newBook = { ...books[id], count: 1 }
+
+            bookStorage.push(newBook)
+
+            sum += books[id].price
+        }
+        else {
+            bookStorage[check.id].count++
+            bookStorage[check.id].cost = bookStorage[check.id].count *  bookStorage[check.id].price
+            sum += bookStorage[check.id].price
         }
 
+        this.setLocal(sum)
+
     },
-    directPage: async function(event) {
-        event.preventDefault()
-        
-    },    
     render: function() {
-        if(jobStorage){
-        const htmls = jobStorage.map((job, idx) => {
-
+        const htmls = books.map((book, id) => {
             return `
-                    <div class="job-item">
-                        <a href="/" class="job-item-name" onclick="window.App.renderPage(event, ${idx})" >${job?.jobName}</a>
-                        <div class="job-item-supervisor-name">${job?.supervisor}</div>
-                        <div class="job-item-receive-locate">Nơi nhận: ${job?.receiveLocation}</div>
-                        <div class="job-item-date-start">Ngày bắt đầu: ${job?.dateStart}</div>
-                    </div>
-                `
-        })
-        $('.job-list').innerHTML = htmls.join('')
-    }
-    },
-    renderPage: async function(event, id) {
-        event.preventDefault()
-        this.setCurrentJob(jobStorage[id])
-        window.location.href = '/public/page.html'  
-    },
-    loadJobs: function() {
-        // check valid localStorage (cause it will return null when local not contain any data and it will error to use map function for jobStorage)
-        if(this.getJob){
-            jobStorage= this.getJob
-        }
-        console.log('get job');
-        console.log(jobStorage);
-    },
+            <form class="book-item" onSubmit="window.App.handleClickBuyBtn(event, ${id})">
+                <img src='${book.img}' alt="book" class="book-img">
+                <div class="book-name">${book.name}</div>
+                <div class="book-price">${book.price}</div>
+                <button class="buy-btn">buy</button>
+            </form>
 
-    start: async function(){
-        this.loadJobs()
+
+            `
+
+        })  
+        
+        
+        const list = $('.book-list').innerHTML = htmls.join('')
+    },
+    start: function() {
         this.render()
-        this.handleEvent()
+
     }
+
 }
 
-console.log(window.location.href);
-if(window.location.href=='http://127.0.0.1:5500/public/'){
-    App.start()
-}
-
-
+App.start()
